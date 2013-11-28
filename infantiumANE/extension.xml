@@ -1,0 +1,16 @@
+<extension xmlns="http://ns.adobe.com/air/extension/3.1"> 
+    <id>com.infantium.adobe.ane</id> 
+    <versionNumber>0.1.0</versionNumber> 
+    <platforms> 
+        <platform name="Android-ARM">
+            <applicationDeployment>
+                <nativeLibrary>InfantiumAndroidANE.jar</nativeLibrary>
+                <initializer>com.infantium.adobe.ane.InfantiumExtension</initializer>
+            </applicationDeployment> 
+        </platform>
+
+        <platform name="default">
+            <applicationDeployment/>
+        </platform>
+    </platforms> 
+</extension>

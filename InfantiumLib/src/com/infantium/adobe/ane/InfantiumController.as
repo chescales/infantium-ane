@@ -32,9 +32,9 @@ package com.infantium.adobe.ane
 			return _instance;
 		}
 		
-		public function initInfantium(s1:String, s2:String, int1:int, int2:int, contentAppUUID:String = "3336498c39414e7ea4488b61011038c8"):void{
+		public function initInfantium(api_user:String, api_key:String, w_dev:int, h_dev:int, contentAppUUID:String = "3336498c39414e7ea4488b61011038c8"):void{
 			onResumeInfantium();
-			var isInited:* = extContext.call("initFunction", s1, s2, int1, int2);
+			var isInited:* = extContext.call("initFunction", api_user, api_key, w_dev, h_dev);
 			if(isInited){
 				extContext.call(InfantiumEvent.setContentAppUUID, contentAppUUID);
 			}

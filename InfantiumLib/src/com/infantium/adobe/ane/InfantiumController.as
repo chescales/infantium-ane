@@ -1,9 +1,3 @@
-/**
- * 
- * 
- * 
- * 
- **/
 package com.infantium.adobe.ane
 {
 	import com.infantium.adobe.ane.events.InfantiumEvent;
@@ -17,25 +11,17 @@ package com.infantium.adobe.ane
 	
 	// ALL THE OTHER NECESSARY FUNCTIONS
 
-	
-	/**
-	 * 
-	 */	
 	public class InfantiumController extends EventDispatcher
 	{
 		//----------------------------------------
-		//
 		// Variables
-		//
 		//----------------------------------------
 		
 		private static var _instance:InfantiumController;
 		private var extContext:ExtensionContext;
 				
 		//----------------------------------------
-		//
 		// Public Methods
-		//
 		//----------------------------------------
 		
 		public static function get instance():InfantiumController {
@@ -63,15 +49,7 @@ package com.infantium.adobe.ane
 		}
 		
 		//----------------------------------------
-		//
 		// Handlers
-		//
-		//----------------------------------------
-		
-		//----------------------------------------
-		//
-		// Handlers
-		//
 		//----------------------------------------
 		
 		private function onStatus( event:StatusEvent ):void {
@@ -98,12 +76,6 @@ package com.infantium.adobe.ane
 			return str;
 		}
 		
-		//----------------------------------------
-		//
-		// Constructor
-		//
-		//----------------------------------------
-		
 		/**
 		 * Constructor. 
 		 */		
@@ -115,7 +87,7 @@ package com.infantium.adobe.ane
 			extContext = ExtensionContext.createExtensionContext( "com.infantium.adobe.ane", "" );
 			
 			if ( !extContext ) {
-				throw new Error( "Volume native extension is not supported on this platform." );
+				throw new Error( "Sorry, Infantium native extension is not supported on this platform." );
 			}
 			
 			extContext.addEventListener( StatusEvent.STATUS, onStatus );
@@ -137,56 +109,194 @@ package com.infantium.adobe.ane
 		/* (non-Javadoc)
 		* The parameters in the args should be:
 		* 0: String element_id
-		* 1: String type
-		* 2: String visual_type
-		* 3: String dimension
-		* 4: int size_x
-		* 5: int size_y
-		* 6: int size_z (-1 if non-existent)
-		* 7: String color
-		* 8: String category
-		* 9: String subcategory
-		* 10: int pos_x
-		* 11: int pos_y
-		* 12: int pos_z (-1 if non-existent)
-		* 13: float visibility
-		* 14: float alpha
-		* 15: String extra_fields_json
+		* 1: Integer width (optional).
+		* 2: Integer height (optional).
+		* 3: String movement (optional).
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addElement(element_id:String, type:String, visual_type:String, dimension:String, size_x:int, size_y:int, size_z:int, color:String, category:String, subcategory:String, pos_x:int, pos_y:int, pos_z:int, visibility:Number, alpha:Number, extra_fields_json:Vector.<DynamicField>):String{
-			if(extra_fields_json == null){
-				extra_fields_json = new Vector.<DynamicField>;
-			}
-			if(isNaN(size_z)) size_z = -1;
-			if(isNaN(pos_z)) pos_z = -1;
-			var response:String = extContext.call("addElement", element_id, type, visual_type, dimension, size_x, size_y, size_z, color, category, subcategory, pos_x, pos_y, pos_z, visibility, alpha, JSON.stringify(extra_fields_json)) as String;
+		public function addElement(element_id:String, width:int, height:int, movement:String):String{
+			if(isNaN(width)) width = -1;
+			if(isNaN(height)) height = -1;
+			if(movement != null && movement.length>0) movement = "";
+			var response:String = extContext.call("addElement",width, height, movement) as String;
 			return response;
 		}
-		
+
+
+
 		/* (non-Javadoc)
 		* The parameters in the args should be:
-		* 0: String sound_id
-		* 1: String category (optional)
-		* 2: String subcategory (optional)
+		* 0: String element_id
+		* 1: int width (optional)
+		* 2: int height (optional)
+		* 3: String movement (optional)
+		* 4: int value
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addSound(sound_id:String, category:String = "", subcategory:String = ""):String{
-			var response:String;
-			if(category == ""){
-				response = extContext.call("addSound", sound_id) as String;
-			} else if(subcategory == ""){
-				response = extContext.call("addSound", sound_id, category) as String;
-			} else {
-				response = extContext.call("addSound", sound_id, category, subcategory) as String;
-			}
+		public function addNumberElement(element_id:String, width:int, height:int, movement:String, value:int):String{
+			if(isNaN(width)) width = -1;
+			if(isNaN(height)) height = -1;
+			if(movement != null && movement.length>0) movement = "";
+			var response:String = extContext.call("addNumberElement", element_id, width, height, movement, value) as String;
 			return response;
 		}
-		
-		public function getPlayerUUIDFromApp():void{
-			extContext.call("getPlayerUUIDFromApp");
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String element_id
+		* 1: int width (optional)
+		* 2: int height (optional)
+		* 3: String movement (optional)
+		* 4: String text
+		* 5: String language (optional)
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addTextElement(element_id:String, width:int, height:int, movement:String, text:String, language:String):String{
+			if(isNaN(width)) width = -1;
+			if(isNaN(height)) height = -1;
+			if(movement == null) movement = "";
+			if(language == null) language = "";
+
+			var response:String = extContext.call("addTextElement", element_id, width, height, movement, text, language) as String;
+			return response;
 		}
-		
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String element_id
+		* 1: int width
+		* 2: int height
+		* 3: String movement
+		* 4: int n_sides
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addShapeElement(element_id:String, width:int, height:int, movement:String, n_sides:int):String{
+			if(isNaN(width)) width = -1;
+			if(isNaN(height)) height = -1;
+			if(movement == null) movement = "";
+			if(isNaN(n_sides)) n_sides = -1;
+			var response:String = extContext.call("addShapeElement", element_id, width, height, movement, n_sides) as String;
+			return response;
+		}
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addPaintedElement():String{
+			throw new Error( "addPaintedElement is not implemented yet, sorry" );
+		 	var response:String = "";
+			return response;
+		}
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String contentapp_uuid
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addPictureElement():String{
+			throw new Error( "addPictureElement is not implemented yet, sorry" );
+			var response:String = "";
+			return response;
+		}
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String goal_id
+		* 1: int time_limit (optional)
+		* 2: String instructions (optional)
+		* 3: Boolean auto_eval (default=true)
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addGoal(goal_id:String, time_limit:int, instructions:String, auto_eval:Boolean=true):String{
+			if(isNaN(time_limit)) time_limit = -1;
+			if(instructions == null) instructions = "";
+			var response:String = extContext.call("addGoal", goal_id, time_limit, auto_eval, instructions) as String;
+			return response;
+		}
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String goal_id
+		* 1: int time_limit (optional)
+		* 2: String instructions (optional)
+		* 3: int n_correct_choices (optional)
+		* 4: int n_incorrect_choices (optional)
+		* 5: String needed_action (optional)
+		* 7: Boolean unique_solution (default=true)
+		* 2: Boolean auto_eval (default=true)
+
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addSelectionGoal(goal_id:String, time_limit:int, instructions:String, n_correct_choices:int, n_incorrect_choices:int, needed_action:String, unique_solution:Boolean=true, auto_eval:Boolean=true):String{
+			if(isNaN(time_limit)) time_limit = -1;
+			if(isNaN(n_correct_choices)) n_correct_choices = -1;
+			if(isNaN(n_incorrect_choices)) n_incorrect_choices = -1;
+			if(instructions == null) instructions = "";
+			if(needed_action == null) needed_action = "";
+
+			var response:String = extContext.call("addSelectionGoal", goal_id, time_limit, auto_eval, instructions, n_correct_choices, n_incorrect_choices, unique_solution, needed_action) as String;
+			return response;
+		}
+
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String goal_id
+		* 1: int time_limit (optional)
+		* 2: String instructions (optional)
+		* 3: String matching_element
+		* 4: String correspondence_type (optional)
+		* 5: Boolean auto_eval (optional)
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addMatchingGoal(goal_id:String, time_limit:int, instructions:String, matching_element:String, correspondence_type:String, auto_eval:Boolean=true):String{
+			if(isNaN(time_limit)) time_limit = -1;
+			if(instructions == null) instructions = "";
+			if(correspondence_type == null) correspondence_type = "";
+			
+			var response:String = extContext.call("addMatchingGoal", goal_id, time_limit, auto_eval, instructions, matching_element, correspondence_type) as String;
+			return response;
+		}
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String goal_id
+		* 1: int time_limit (optional)
+		* 2: String instructions (optional)
+		* 3: String element_to_tap
+		* 4: int auto_eval (optional)
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function addTappingGoal(goal_id:String, time_limit:int, instructions:String, element_to_tap:String, auto_eval:Boolean=true):String{
+			if(isNaN(time_limit)) time_limit = -1;
+			if(instructions == null) instructions = "";
+			var response:String = extContext.call("addTappingGoal", goal_id, time_limit, instructions, element_to_tap) as String;
+			return response;
+		}
+
+		/* (non-Javadoc)
+		* The parameters in the args should be:
+		* 0: String interaction_type
+		* 1: String object_type
+		* 2: String goal_type
+		* 3: int lifetime (optional)
+ 		* 4: int n_concurrent_oks (optional)
+		* 5: int n_concurrent_kos (optional)
+		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
+		*/
+		public function newBasicInteraction(interaction_type:String, object_type:String, goal_type:String, lifetime:int, n_concurrent_oks:int, n_concurrent_kos:int):String{
+			if(isNaN(lifetime)) lifetime = -1;
+			if(isNaN(n_concurrent_oks)) n_concurrent_oks = -1;
+			if(isNaN(n_concurrent_kos)) n_concurrent_kos = -1;
+
+			var response:String = extContext.call("newBasicInteraction", interaction_type, object_type, goal_type, lifetime, n_concurrent_oks, n_concurrent_kos) as String;
+			return response;
+		}
+
+
+
+
 		/* (non-Javadoc)
 		* The parameters in the args should be:
 		* 0: String contentapp_uuid
@@ -218,93 +328,10 @@ package com.infantium.adobe.ane
 			extContext.call("closeGameplay");
 		}
 		
-		public function setEvaluate(... args):String{
-			var response:String = extContext.call.apply(extContext, ["setEvaluate"].concat(args)) as String;
-			return response;
-		}
-		
-		/* (non-Javadoc)
-		* The parameters in the args should be:
-		* 0: int successes
-		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
-		*/
-		public function setSuccesses(successes:int):String{
-			var response:String = extContext.call("setSuccesses", successes) as String;
-			return response;
-		}
-		
-		/* (non-Javadoc)
-		* The parameters in the args should be:
-		* 0: int failures
-		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
-		*/
-		public function setFailures(failures:int):String{
-			var response:String = extContext.call("setFailures", failures) as String;
-			return response;
-		}
-		
-		/* (non-Javadoc)
-		* The parameters in the args should be:
-		* 0: String element_id
-		* 1: String goal_element_id
-		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
-		*/
-
-		public function setTarget(element_id:String, goal_element_id:String):String{
-			var response:String = extContext.call("setTarget", element_id, goal_element_id) as String;
-			return response;
-		}
-		
 		public function sendGameRawdata():void{
 			extContext.call("sendGameRawdata");
 		}
 		
-		/* (non-Javadoc)
-		* The parameters in the args should be:
-		* 0: String element_id
-		* 1: String output
-		* 2: String extra_fields_json
-		* 3: String sound_id (optional)
-		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
-		*/
-		public function tapOnObjects(element_id:String, output:String, extra_fields_json:Vector.<DynamicField>, sound_id:String = null):String{
-			if(extra_fields_json == null){
-				extra_fields_json = new Vector.<DynamicField>;
-			}
-			var response:String;
-			if(sound_id != null){
-				response = extContext.call("tapOnObjects", element_id, output, JSON.stringify(extra_fields_json), sound_id) as String;
-			} else {
-				response = extContext.call("tapOnObjects", element_id, output, JSON.stringify(extra_fields_json)) as String;
-			}
-			return response;
-		}
-		
-		/* (non-Javadoc)
-		* The parameters in the args should be:
-		* 0: int pos_x
-		* 1: int pos_y
-		* 2: int pos_z (-1 if non-existent)
-		* 3: String output
-		* 4: String extra_fields_json
-		* 5: String sound_id (optional)
-		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
-		*/
-		public function tapNoObjects(pos_x:int, pos_y:int, pos_z:int, output:String, extra_fields_json:Vector.<DynamicField>, sound_id:String = null):String{
-			if(extra_fields_json == null){
-				extra_fields_json = new Vector.<DynamicField>;
-			}
-			if(isNaN(pos_z)){
-				pos_z = -1;
-			}
-			var response:String;
-			if(sound_id != null){
-				response = extContext.call("tapNoObjects", pos_x, pos_y, pos_z, output, JSON.stringify(extra_fields_json), sound_id) as String;
-			} else {
-				response = extContext.call("tapNoObjects", pos_x, pos_y, pos_z, output, JSON.stringify(extra_fields_json)) as String;
-			}
-			return response;
-		}
 		
 		/* (non-Javadoc)
 		* The parameters in the args should be:
@@ -320,41 +347,6 @@ package com.infantium.adobe.ane
 			}
 			var response:String;
 			response = extContext.call("startDragging",element_id, pos_x, pos_y, pos_z) as String;
-			return response;
-		}
-		
-		/* (non-Javadoc)
-		* The parameters in the args should be:
-		* 0: int pos_x
-		* 1: int pos_y
-		* 2: int pos_z (-1 if non-existent)
-		* 3: String output
-		* 4: int max_x (-1 if non-existent)
-		* 5: int max_y (-1 if non-existent)
-		* 6: String extra_fields_json
-		* 7: String sound_id (optional)
-		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
-		*/
-		public function finishDragging(pos_x:int, pos_y:int, pos_z:int, output:String, max_x:int, max_y:int,  extra_fields_json:Vector.<DynamicField>, sound_id:String = null):String{
-			if(extra_fields_json == null){
-				extra_fields_json = new Vector.<DynamicField>;
-			}
-			if(isNaN(pos_z)){
-				pos_z = -1;
-			}
-			if(isNaN(max_x)){
-				max_x = -1;
-			}
-			if(isNaN(max_y)){
-				max_y = -1;
-			}
-			var response:String;
-			if(sound_id != null){
-				trace("CALL finishDragging", pos_x, pos_y, pos_z, output, max_x, max_y, JSON.stringify(extra_fields_json), sound_id);
-				response = extContext.call("finishDragging", pos_x, pos_y, pos_z, output, max_x, max_y, JSON.stringify(extra_fields_json), sound_id) as String;
-			} else {
-				response = extContext.call("finishDragging", pos_x, pos_y, pos_z, output, max_x, max_y, JSON.stringify(extra_fields_json)) as String;
-			}
 			return response;
 		}
 		

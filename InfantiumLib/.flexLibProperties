@@ -4,6 +4,10 @@
     <classEntry path="com.infantium.adobe.ane.InfantiumResponse"/>
     <classEntry path="com.infantium.adobe.ane.DynamicField"/>
   </includeClasses>
-  <includeResources/>
+  <includeResources>
+    <resourceEntry destPath="com/infantium/adobe/.DS_Store" sourcePath="com/infantium/adobe/.DS_Store"/>
+    <resourceEntry destPath="com/infantium/.DS_Store" sourcePath="com/infantium/.DS_Store"/>
+    <resourceEntry destPath=".DS_Store" sourcePath=".DS_Store"/>
+  </includeResources>
   <namespaceManifests/>
 </flexLibProperties>

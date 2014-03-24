@@ -32,7 +32,7 @@ package com.infantium.adobe.ane
 			return _instance;
 		}
 		
-		public function initInfantium(api_user:String, api_key:String, w_dev:int, h_dev:int, contentAppUUID:String = "3336498c39414e7ea4488b61011038c8"):void{
+		public function initInfantium(api_user:String, api_key:String, w_dev:int, h_dev:int, contentAppUUID:String):void{
 			onResumeInfantium();
 			var isInited:* = extContext.call("initFunction", api_user, api_key, w_dev, h_dev);
 			if(isInited){
@@ -219,11 +219,11 @@ package com.infantium.adobe.ane
 		* The parameters in the args should be:
 		* 0: String goal_id
 		* 1: int time_limit (optional)
-		* 2: String instructions (optional)
-		* 3: int n_correct_choices (optional)
-		* 4: int n_incorrect_choices (optional)
-		* 5: String needed_action (optional)
-		* 7: Boolean unique_solution (default=true)
+		* 3: String instructions (optional)
+		* 4: int n_correct_choices (optional)
+		* 5: int n_incorrect_choices (optional)
+		* 7: String needed_action (optional)
+		* 6: Boolean unique_solution (default=true)
 		* 2: Boolean auto_eval (default=true)
 
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
@@ -244,10 +244,10 @@ package com.infantium.adobe.ane
 		* The parameters in the args should be:
 		* 0: String goal_id
 		* 1: int time_limit (optional)
-		* 2: String instructions (optional)
-		* 3: String matching_element
-		* 4: String correspondence_type (optional)
-		* 5: Boolean auto_eval (optional)
+		* 3: String instructions (optional)
+		* 4: String matching_element
+		* 5: String correspondence_type (optional)
+		* 2: Boolean auto_eval (default=true)
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
 		public function addMatchingGoal(goal_id:String, time_limit:int, instructions:String, matching_element:String, correspondence_type:String, auto_eval:Boolean=true):String{
@@ -278,7 +278,7 @@ package com.infantium.adobe.ane
 		/* (non-Javadoc)
 		* The parameters in the args should be:
 		* 0: String interaction_type
-		* 1: String object_type
+		* 1: String object_type(optional)
 		* 2: String goal_type
 		* 3: int lifetime (optional)
  		* 4: int n_concurrent_oks (optional)
@@ -286,10 +286,10 @@ package com.infantium.adobe.ane
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
 		public function newBasicInteraction(interaction_type:String, object_type:String, goal_type:String, lifetime:int, n_concurrent_oks:int, n_concurrent_kos:int):String{
+			if(object_type == null) object_type = null;
 			if(isNaN(lifetime)) lifetime = -1;
 			if(isNaN(n_concurrent_oks)) n_concurrent_oks = -1;
 			if(isNaN(n_concurrent_kos)) n_concurrent_kos = -1;
-
 			var response:String = extContext.call("newBasicInteraction", interaction_type, object_type, goal_type, lifetime, n_concurrent_oks, n_concurrent_kos) as String;
 			return response;
 		}
@@ -332,23 +332,6 @@ package com.infantium.adobe.ane
 			extContext.call("sendGameRawdata");
 		}
 		
-		
-		/* (non-Javadoc)
-		* The parameters in the args should be:
-		* 0: String element_id
-		* 1: int pos_x
-		* 2: int pos_y
-		* 3: int pos_z (-1 if non-existent)
-		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
-		*/
-		public function startDragging(element_id:String, pos_x:int, pos_y:int, pos_z:int):String{
-			if(isNaN(pos_z)){
-				pos_z = -1;
-			}
-			var response:String;
-			response = extContext.call("startDragging",element_id, pos_x, pos_y, pos_z) as String;
-			return response;
-		}
 		
 		public function startPlaying():String{
 			/* (non-Javadoc)

@@ -117,8 +117,8 @@ package com.infantium.adobe.ane
 		public function addElement(element_id:String, width:int, height:int, movement:String):String{
 			if(isNaN(width)) width = -1;
 			if(isNaN(height)) height = -1;
-			if(movement != null && movement.length>0) movement = "";
-			var response:String = extContext.call("addElement",width, height, movement) as String;
+			if(movement == null) movement = "";
+			var response:String = extContext.call("addElement", element_id, width, height, movement) as String;
 			return response;
 		}
 
@@ -136,7 +136,7 @@ package com.infantium.adobe.ane
 		public function addNumberElement(element_id:String, width:int, height:int, movement:String, value:int):String{
 			if(isNaN(width)) width = -1;
 			if(isNaN(height)) height = -1;
-			if(movement != null && movement.length>0) movement = "";
+			if(movement == null) movement = "";
 			var response:String = extContext.call("addNumberElement", element_id, width, height, movement, value) as String;
 			return response;
 		}

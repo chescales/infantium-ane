@@ -263,15 +263,18 @@ package com.infantium.adobe.ane
 		* The parameters in the args should be:
 		* 0: String goal_id
 		* 1: int time_limit (optional)
-		* 2: String instructions (optional)
-		* 3: String element_to_tap
-		* 4: int auto_eval (optional)
+		* 3: String instructions (optional)
+		* 4: String element_to_tap
+		* 2: int auto_eval (optional)
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
 		public function addTappingGoal(goal_id:String, time_limit:int, instructions:String, element_to_tap:String, auto_eval:Boolean=true):String{
 			if(isNaN(time_limit)) time_limit = -1;
+			if(goal_id == null) goal_id = "";
 			if(instructions == null) instructions = "";
-			var response:String = extContext.call("addTappingGoal", goal_id, time_limit, instructions, element_to_tap) as String;
+			if(element_to_tap == null) element_to_tap = "";
+
+			var response:String = extContext.call("addTappingGoal", goal_id, time_limit, auto_eval, instructions, element_to_tap) as String;
 			return response;
 		}
 

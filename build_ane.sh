@@ -2,6 +2,7 @@
 
 echo "Building ANE..."
 mkdir -p build
+cp 
 cp InfantiumLib/bin/InfantiumLib.swc build
 pushd build && unzip -o InfantiumLib.swc && popd
 pushd InfantiumANE

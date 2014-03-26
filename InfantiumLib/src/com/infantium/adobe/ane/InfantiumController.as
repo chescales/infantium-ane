@@ -32,7 +32,7 @@ package com.infantium.adobe.ane
 			return _instance;
 		}
 		
-		public function initInfantium(api_user:String, api_key:String, w_dev:int, h_dev:int, contentAppUUID:String):void{
+		public function initInfantium(api_user:String, api_key:String, w_dev:Number, h_dev:Number, contentAppUUID:String):void{
 			onResumeInfantium();
 			var isInited:* = extContext.call("initFunction", api_user, api_key, w_dev, h_dev);
 			if(isInited){
@@ -109,12 +109,12 @@ package com.infantium.adobe.ane
 		/* (non-Javadoc)
 		* The parameters in the args should be:
 		* 0: String element_id
-		* 1: Integer width (optional).
-		* 2: Integer height (optional).
+		* 1: int width (optional).
+		* 2: int height (optional).
 		* 3: String movement (optional).
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addElement(element_id:String, width:int, height:int, movement:String):String{
+		public function addElement(element_id:String, width:Number, height:Number, movement:String):String{
 			if(isNaN(width)) width = -1;
 			if(isNaN(height)) height = -1;
 			if(movement == null) movement = "";
@@ -133,7 +133,7 @@ package com.infantium.adobe.ane
 		* 4: int value
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addNumberElement(element_id:String, width:int, height:int, movement:String, value:int):String{
+		public function addNumberElement(element_id:String, width:Number, height:Number, movement:String, value:Number):String{
 			if(isNaN(width)) width = -1;
 			if(isNaN(height)) height = -1;
 			if(movement == null) movement = "";
@@ -151,7 +151,7 @@ package com.infantium.adobe.ane
 		* 5: String language (optional)
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addTextElement(element_id:String, width:int, height:int, movement:String, text:String, language:String):String{
+		public function addTextElement(element_id:String, width:Number, height:Number, movement:String, text:String, language:String):String{
 			if(isNaN(width)) width = -1;
 			if(isNaN(height)) height = -1;
 			if(movement == null) movement = "";
@@ -170,7 +170,7 @@ package com.infantium.adobe.ane
 		* 4: int n_sides
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addShapeElement(element_id:String, width:int, height:int, movement:String, n_sides:int):String{
+		public function addShapeElement(element_id:String, width:Number, height:Number, movement:String, n_sides:Number):String{
 			if(isNaN(width)) width = -1;
 			if(isNaN(height)) height = -1;
 			if(movement == null) movement = "";
@@ -208,7 +208,7 @@ package com.infantium.adobe.ane
 		* 3: Boolean auto_eval (default=true)
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addGoal(goal_id:String, time_limit:int, instructions:String, auto_eval:Boolean=true):String{
+		public function addGoal(goal_id:String, time_limit:Number, instructions:String, auto_eval:Boolean=true):String{
 			if(isNaN(time_limit)) time_limit = -1;
 			if(instructions == null) instructions = "";
 			var response:String = extContext.call("addGoal", goal_id, time_limit, auto_eval, instructions) as String;
@@ -228,7 +228,7 @@ package com.infantium.adobe.ane
 
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addSelectionGoal(goal_id:String, time_limit:int, instructions:String, n_correct_choices:int, n_incorrect_choices:int, needed_action:String, unique_solution:Boolean=true, auto_eval:Boolean=true):String{
+		public function addSelectionGoal(goal_id:String, time_limit:Number, instructions:String, n_correct_choices:Number, n_incorrect_choices:Number, needed_action:String, unique_solution:Boolean=true, auto_eval:Boolean=true):String{
 			if(isNaN(time_limit)) time_limit = -1;
 			if(isNaN(n_correct_choices)) n_correct_choices = -1;
 			if(isNaN(n_incorrect_choices)) n_incorrect_choices = -1;
@@ -250,7 +250,7 @@ package com.infantium.adobe.ane
 		* 2: Boolean auto_eval (default=true)
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addMatchingGoal(goal_id:String, time_limit:int, instructions:String, matching_element:String, correspondence_type:String, auto_eval:Boolean=true):String{
+		public function addMatchingGoal(goal_id:String, time_limit:Number, instructions:String, matching_element:String, correspondence_type:String, auto_eval:Boolean=true):String{
 			if(isNaN(time_limit)) time_limit = -1;
 			if(instructions == null) instructions = "";
 			if(correspondence_type == null) correspondence_type = "";
@@ -265,15 +265,14 @@ package com.infantium.adobe.ane
 		* 1: int time_limit (optional)
 		* 3: String instructions (optional)
 		* 4: String element_to_tap
-		* 2: int auto_eval (optional)
+		* 2: Boolean auto_eval (optional)
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function addTappingGoal(goal_id:String, time_limit:int, instructions:String, element_to_tap:String, auto_eval:Boolean=true):String{
+		public function addTappingGoal(goal_id:String, time_limit:Number, instructions:String, element_to_tap:String, auto_eval:Boolean=true):String{
 			if(isNaN(time_limit)) time_limit = -1;
 			if(goal_id == null) goal_id = "";
 			if(instructions == null) instructions = "";
 			if(element_to_tap == null) element_to_tap = "";
-
 			var response:String = extContext.call("addTappingGoal", goal_id, time_limit, auto_eval, instructions, element_to_tap) as String;
 			return response;
 		}
@@ -288,7 +287,7 @@ package com.infantium.adobe.ane
 		* 5: int n_concurrent_kos (optional)
 		* @see com.adobe.fre.FREFunction#call(com.adobe.fre.FREContext, com.adobe.fre.FREObject[])
 		*/
-		public function newBasicInteraction(interaction_type:String, object_type:String, goal_type:String, lifetime:int, n_concurrent_oks:int, n_concurrent_kos:int):String{
+		public function newBasicInteraction(interaction_type:String, object_type:String, goal_type:String, lifetime:Number, n_concurrent_oks:Number, n_concurrent_kos:Number):String{
 			if(object_type == null) object_type = null;
 			if(isNaN(lifetime)) lifetime = -1;
 			if(isNaN(n_concurrent_oks)) n_concurrent_oks = -1;

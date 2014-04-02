@@ -32,9 +32,12 @@ package com.infantium.adobe.ane
 			return _instance;
 		}
 		
-		public function initInfantium(api_user:String, api_key:String, w_dev:Number, h_dev:Number, contentAppUUID:String):void{
+		/*
+		 * TO ENABLE PRODUCTION MODE: Send "api" on server string parameter.
+		 */
+		public function initInfantium(api_user:String, api_key:String, w_dev:Number, h_dev:Number, contentAppUUID:String, server:String="beta", debug:Boolean=true):void{
 			onResumeInfantium();
-			var isInited:* = extContext.call("initFunction", api_user, api_key, int(w_dev), int(h_dev));
+			var isInited:* = extContext.call("initFunction", api_user, api_key, int(w_dev), int(h_dev), server, debug);
 			if(isInited){
 				extContext.call(InfantiumEvent.setContentAppUUID, contentAppUUID);
 			}

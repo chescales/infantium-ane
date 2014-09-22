@@ -1,0 +1,4 @@
+<packagedDependencies> 
+    <packagedDependency>android-async-http-1.4.3.jar</packagedDependency> 
+    <packagedDependency>sqlitejdbc-v056.jar</packagedDependency> 
+</packagedDependencies>
